@@ -9,22 +9,46 @@ Concatena una seconda chiamata che aggiunge una proprietà user che contiene i d
 
 */
 
-const apiURL = `https://dummyjson.com/posts/`
+const postURL = `https://dummyjson.com/posts/`;
 
 function getPostTitle(id) {
 
     const post = new Promise((resolve, reject) => {
 
-        const fetchData = fetch(apiURL + id)
+        const fetchData = fetch(postURL + id)
             .then(response => response.json())
             .then(data => resolve(data))
             .catch(err => reject(err))
-            .finally(() => console.log("Terminato"))
     })
 
     return post
-}
+};
 
 getPostTitle(1)
-    .then(obj => console.log(obj))
-    .catch(err => console.log(err))
+    .then(obj => console.log("Post Title:", obj.title))
+    .catch(err => console.log(err));
+
+const userURL = `https://dummyjson.com/users/`;
+
+function getPost(id) {
+
+    const post = new Promise((resolve, reject) => {
+
+        const fetchData = fetch(postURL + id)
+            .then(response => response.json())
+            .then(post => {
+
+                fetch(userURL + post.userId)
+                    .then(response => response.json())
+                    .then(user => resolve({ ...post, user }))
+                    .catch(reject)
+            })
+            .catch(reject)
+    })
+
+    return post
+};
+
+getPost(3)
+    .then(obj => console.log(obj.title, "Username:", obj.user.username))
+    .catch(err => console.log(err));
