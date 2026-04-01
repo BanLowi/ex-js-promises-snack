@@ -1,31 +1,58 @@
-function fetchData(id) {
+/*
 
-    const result = fetch(`https://dummyjson.com/posts/${id}`)
-        .then(resolve => resolve.json())
-        .then(data => console.log(data))
+Crea la funzione lanciaDado() che restituisce una Promise che, dopo 3 secondi, genera un numero casuale tra 1 e 6. 
+Tuttavia, nel 20% dei casi, il dado si "incastra" e la Promise va in reject.
+Bonus: HOF con closure per memorizzare l'ultimo lancio
+Modifica la funzione in creaLanciaDado(), che restituisce una closure che memorizza l'ultimo risultato.
+Se il numero esce due volte di fila, stampa "Incredibile!".
 
-    return result
-}
+*/
 
-const getUser = (id) => {
+/* function lanciaDado() {
 
-    const fetchPromise = new Promise((resolve, reject) => {
+    const result = new Promise((resolve, reject) => {
 
-        fetch(`https://dummyjson.com/posts/${id}`)
-            .then(response => response.json())
-            .then(obj => resolve(obj))
-            .catch(reject);
+        const stuckDice = Math.random() * 10;
+
+        setTimeout(() => {
+
+            if (stuckDice > 2) {
+                resolve(Math.floor(Math.random() * 6) + 1);
+            } else {
+                reject("Dice Stuck")
+            }
+        }, 3000);
+
     })
 
-    return fetchPromise
+    return result
+
 }
 
-
-getUser(2)
+lanciaDado()
     .then(obj => console.log(obj))
     .catch(err => console.log(err))
+ */
 
 
-fetchData(4)
-    .then(obj => console.log(obj))
-    .catch(err => console.log(err))
+function creaLanciaDado() {
+
+    let result = 0;
+
+
+
+    return new Promise((resolve, reject) => {
+
+        const stuckDice = Math.random() * 10;
+
+        setTimeout(() => {
+
+            if (stuckDice > 2) {
+                resolve(Math.floor(Math.random() * 6) + 1);
+            } else {
+                reject("Dice Stuck")
+            }
+        }, 3000);
+
+    })
+}

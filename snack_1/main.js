@@ -41,9 +41,9 @@ function getPost(id) {
                 fetch(userURL + post.userId)
                     .then(response => response.json())
                     .then(user => resolve({ ...post, user }))
-                    .catch(reject)
+                    .catch(err => reject(err))
             })
-            .catch(reject)
+            .catch(err => reject(err))
     })
 
     return post
